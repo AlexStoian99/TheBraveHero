@@ -112,36 +112,68 @@ class Character {
 
 }
 
+function doublePower($carl) {
+
+    $chanceDragonPower = rand(1,100);
+
+    if ($chanceDragonPower > 0 && $chanceDragonPower <= 10) {
+
+        echo "Carl Power before double:" . $carl->getPower() . "\n";
+
+        $carl->dragonPower();
+
+        echo "Carl Power after double: " . $carl->getPower() . "\n";
+    }
+
+}
+
+function halfPower($opponent) {
+
+    $chanceOpponentPower = rand(1,100);
+
+    if($chanceOpponentPower > 0 && $chanceOpponentPower <= 20) {
+
+        echo "Opponent Power before half: " . $opponent->getPower() . "\n";
+
+        $opponent->setPower($opponent->getPower() / 2);
+
+        echo "Opponent Power after half: " . $opponent->getPower() . "\n";
+    }
+
+}
+
 function carlStartFirst($carl, $opponent) {
 
     echo "First Attack Carl \n";
 
-    $chanceDragonPower = 5;
-
-    echo "Carl Power before double:" . $carl->getPower() . "\n";
-
-    if ($chanceDragonPower > 0 && $chanceDragonPower <= 10)
-        $carl->dragonPower();
-
-    echo "Carl Power after double: " . $carl->getPower() . "\n";
-
+    doublePower($carl);
+    halfPower($opponent);
 
     for ($i = 1; $i <= 20; $i++) {
 
         //--- Carl ---------------------------------------------------------------------------------------------
+        $chanceLuckOpponent = rand(1,100)/100;
 
-        $opponentLifeBeforeDamage = $opponent->getLife();
-        $damageCarl = $carl->getPower() - $opponent->getDefense();
+        if(!($chanceLuckOpponent <= $opponent->getLuck())) {
 
-        $opponentLife = $opponent->getLife() - $damageCarl;
+            $opponentLifeBeforeDamage = $opponent->getLife();
+            $damageCarl = $carl->getPower() - $opponent->getDefense();
 
-        $opponent->setLife($opponentLife);
+            $opponentLife = $opponent->getLife() - $damageCarl;
 
-        echo "Round : " . $i .
-            " Opponent Life Before Damage : " . $opponentLifeBeforeDamage .
-            " Carl damage : " . $damageCarl .
-            " Opponent Life After Damage : " . ($opponentLife <= 0 ? 0 : $opponentLife) .
-            "\n";
+            $opponent->setLife($opponentLife);
+
+            echo "Round : " . $i .
+                " Opponent Life Before Damage : " . $opponentLifeBeforeDamage .
+                " Carl damage : " . $damageCarl .
+                " Opponent Life After Damage : " . ($opponentLife <= 0 ? 0 : $opponentLife) .
+                "\n";
+
+        } else {
+
+            echo " Carl missing \n";
+
+        }
 
         if ($opponent->getLife() <= 0) {
 
@@ -154,24 +186,34 @@ function carlStartFirst($carl, $opponent) {
 
         //--- Opponent ---------------------------------------------------------------------------------------------
 
-        $carlLifeBeforeDamage = $carl->getLife();
-        $damageOpponent = $opponent->getPower() - $carl->getDefense();
+        $chanceLuckCarl = rand(1,100)/100;
 
-        $carlLife = $carl->getLife() - $damageOpponent;
+        if(!($chanceLuckCarl <= $opponent->getLuck())) {
 
-        $carl->setLife($carlLife);
+            $carlLifeBeforeDamage = $carl->getLife();
+            $damageOpponent = $opponent->getPower() - $carl->getDefense();
 
-        echo "Round : " . $i .
-            " Carl Life Before Damage : " . $carlLifeBeforeDamage .
-            " Carl damage : " . $damageOpponent .
-            " Carl Life After Damage : " . ($carlLife <= 0 ? 0 : $carlLife) .
-            "\n";
+            $carlLife = $carl->getLife() - $damageOpponent;
+
+            $carl->setLife($carlLife);
+
+            echo "Round : " . $i .
+                " Carl Life Before Damage : " . $carlLifeBeforeDamage .
+                " Carl damage : " . $damageOpponent .
+                " Carl Life After Damage : " . ($carlLife <= 0 ? 0 : $carlLife) .
+                "\n";
+
+        } else {
+
+            echo " Opponent missing \n";
+
+        }
 
         if ($carl->getLife() <= 0) {
 
             $carl->setLife(0);
 
-            echo 'WIN OPPONENT';
+            echo "WIN OPPONENT";
 
             break;
         }
@@ -184,22 +226,35 @@ function opponentStartFirst($carl, $opponent) {
 
     echo "First Attack Opponent \n";
 
+    doublePower($carl);
+    halfPower($opponent);
+
     for ($i = 1; $i <= 20 ; $i++) {
 
         //--- Opponent ---------------------------------------------------------------------------------------------
 
-        $carlLifeBeforeDamage = $carl->getLife();
-        $damageOpponent = $opponent->getPower() - $carl->getDefense();
+        $chanceLuckCarl = rand(1,100)/100;
 
-        $carlLife = $carl->getLife() - $damageOpponent;
+        if(!($chanceLuckCarl <= $opponent->getLuck())) {
 
-        $carl->setLife($carlLife);
+            $carlLifeBeforeDamage = $carl->getLife();
+            $damageOpponent = $opponent->getPower() - $carl->getDefense();
 
-        echo "Round : " . $i .
-            " Carl Life Before Damage : " . $carlLifeBeforeDamage .
-            " Carl damage : " . $damageOpponent .
-            " Carl Life After Damage : " . ($carlLife <= 0 ? 0 : $carlLife) .
-            "\n";
+            $carlLife = $carl->getLife() - $damageOpponent;
+
+            $carl->setLife($carlLife);
+
+            echo "Round : " . $i .
+                " Carl Life Before Damage : " . $carlLifeBeforeDamage .
+                " Carl damage : " . $damageOpponent .
+                " Carl Life After Damage : " . ($carlLife <= 0 ? 0 : $carlLife) .
+                "\n";
+
+        } else {
+
+            echo " Carl missing \n";
+
+        }
 
         if ($carl->getLife() <= 0) {
 
@@ -212,18 +267,28 @@ function opponentStartFirst($carl, $opponent) {
 
         //--- Carl ---------------------------------------------------------------------------------------------
 
-        $opponentLifeBeforeDamage = $opponent->getLife();
-        $damageCarl = $carl->getPower() - $opponent->getDefense();
+        $chanceLuckOpponent = rand(1,100)/100;
 
-        $opponentLife = $opponent->getLife() - $damageCarl;
+        if(!($chanceLuckOpponent <= $opponent->getLuck())) {
 
-        $opponent->setLife($opponentLife);
+            $opponentLifeBeforeDamage = $opponent->getLife();
+            $damageCarl = $carl->getPower() - $opponent->getDefense();
 
-        echo "Round : " . $i .
-            " Opponent Life Before Damage : " . $opponentLifeBeforeDamage .
-            " Carl damage : " . $damageCarl .
-            " Opponent Life After Damage : " . ($opponentLife <= 0 ? 0 : $opponentLife) .
-            "\n";
+            $opponentLife = $opponent->getLife() - $damageCarl;
+
+            $opponent->setLife($opponentLife);
+
+            echo "Round : " . $i .
+                " Opponent Life Before Damage : " . $opponentLifeBeforeDamage .
+                " Carl damage : " . $damageCarl .
+                " Opponent Life After Damage : " . ($opponentLife <= 0 ? 0 : $opponentLife) .
+                "\n";
+
+        } else {
+
+            echo " Opponent missing \n";
+
+        }
 
         if ($opponent->getLife() <= 0) {
 
